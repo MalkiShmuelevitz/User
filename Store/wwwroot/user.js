@@ -1,4 +1,5 @@
 ﻿sessionStorage.getItem("id")
+
 const getDataFromRegister = () => {
     const username = document.querySelector("#username").value
     const password = document.querySelector("#password2").value
@@ -56,9 +57,14 @@ const login = async () => {
 }
 const newUser = () => {
     const container = document.querySelector(".container")
+
     container.classList.remove("container")
 }
+const closePanel = () => {
+    const container = document.querySelector(".container")
 
+    container.classList.add("container")
+}
 const seeTheUpdateUser = () => {
     const container = document.querySelector(".containerOfUpdate")
     container.classList.remove("containerOfUpdate")
@@ -87,8 +93,6 @@ const register = async () => {
         }
         const dataPost = await postFromData.json()
         console.log('post data', dataPost)
-
-
     }
     catch (error) {
         alert(error)
