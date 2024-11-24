@@ -48,7 +48,7 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult<User> PostNewUser([FromBody] User user)
         {
-            int result = _iUserService.CheckPassword(user.Password);
+            int result = _iUserService.CheckPassword(user.Password);//not here, in services
             if (result <= 3)
                 return NotFound(result);
             User newUser = _iUserService.Post(user);
