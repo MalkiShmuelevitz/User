@@ -4,8 +4,8 @@ namespace Repositories
 {
     public interface IUserRepository
     {
-        User Post(User user);
-        User PostLoginR(string username, string password);
-        void Put(int id, User user1);
+        Task<User> Post(User user);
+        Task<User> PostLoginR(string username, string password);
+        Task Put(int id, User user1);
     }
 }

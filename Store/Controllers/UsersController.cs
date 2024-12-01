@@ -36,22 +36,21 @@ namespace Store.Controllers
         // POST api/<UsersController>0w
         [HttpPost]
         [Route("login")]
-        public ActionResult<User> PostLogin([FromQuery] string username,string password)
+        public async Task<ActionResult<User>> PostLogin([FromQuery] string username,string password)
         {
-            //where we will put the ask of the null?
-            User user = _iUserService.PostLoginS(username, password);
+            User user = await _iUserService.PostLoginS(username, password);
             if (user != null)
                 return Ok(user);
             return NoContent();
         }
 
         [HttpPost]
-        public ActionResult<User> PostNewUser([FromBody] User user)
+        public async Task<ActionResult<User>> PostNewUser([FromBody] User user)
         {
             int result = _iUserService.CheckPassword(user.Password);
             if (result <= 3)
                 return NotFound(result);
-            User newUser = _iUserService.Post(user);
+            User newUser = await _iUserService.Post(user);
             if (newUser != null)
                 return Ok(newUser);
             return NoContent();
@@ -61,7 +60,7 @@ namespace Store.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User userFromClient)
         {
-            _iUserService.Put(id, userFromClient);
+             _iUserService.Put(id, userFromClient);
         }
 
         // DELETE api/<UsersController>/5

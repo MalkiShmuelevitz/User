@@ -24,7 +24,6 @@ const getDataFromLogin = () => {
 }
 const login = async () => {
     const user = getDataFromLogin()
-    
     try {
         const data = await fetch(`api/Users/login/?username=${user.username}&password=${user.password}`, {
             method: 'POST',
@@ -46,7 +45,7 @@ const login = async () => {
         const dataLogin = await data.json()
         console.log('post data',dataLogin)
         //sessionStorage
-        sessionStorage.setItem("id", dataLogin.userId)
+        sessionStorage.setItem("id", dataLogin.id)
         window.location.href = 'userDetails.html'
     }
     catch (error) {
@@ -111,6 +110,7 @@ const updateUser = async () => {
             body: JSON.stringify(user)
         });
         if (updateFromData.status == 400) {
+            console.log(updateFromData)
             throw new Error("all fields are required")
         }
         alert(`user ${sessionStorage.getItem("id") } update`)

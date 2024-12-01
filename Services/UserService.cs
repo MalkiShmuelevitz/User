@@ -14,18 +14,18 @@ namespace Services
             _iUserRepository = iUserRepository;
         }
 
-        public User PostLoginS(string username, string password)
+        public async Task<User> PostLoginS(string username, string password)
         {
-            return _iUserRepository.PostLoginR(username, password);
+            return await _iUserRepository.PostLoginR(username, password);
         }
-        public User Post(User user)
+        public async Task<User> Post(User user)
         {
-            return _iUserRepository.Post(user);
+            return await _iUserRepository.Post(user);
         }
 
-        public void Put(int id, User user)
+        public async void Put(int id, User user)
         {
-            _iUserRepository.Put(id, user);
+           await _iUserRepository.Put(id, user);
         }
         public int CheckPassword(string password)
         {
