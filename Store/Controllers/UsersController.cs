@@ -11,20 +11,19 @@ namespace Store.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        //UserService userservice = new();
-        IUserService _iUserService;
+        IUserService _iuserservice;
 
-        public UsersController(IUserService iUserService)
+        public UsersController(IUserService iuserservice)
         {
-            _iUserService = iUserService;
+           _iuserservice = iuserservice;
         }
 
         // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "how", "are you" };
-        }
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "how", "are you" };
+        //}
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
@@ -38,7 +37,8 @@ namespace Store.Controllers
         [Route("login")]
         public async Task<ActionResult<User>> PostLogin([FromQuery] string username,string password)
         {
-            User user = await _iUserService.PostLoginS(username, password);
+            //where we will put the ask of the null?
+            User user = await _iuserservice.PostLoginS(username, password);
             if (user != null)
                 return Ok(user);
             return NoContent();
@@ -47,33 +47,35 @@ namespace Store.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostNewUser([FromBody] User user)
         {
-            int result = _iUserService.CheckPassword(user.Password);
+            int result = _iuserservice.CheckPassword(user.Password);
             if (result <= 3)
                 return NotFound(result);
-            User newUser = await _iUserService.Post(user);
+            User newUser =  await _iuserservice.Post(user);
             if (newUser != null)
                 return Ok(newUser);
             return NoContent();
+
         }
+
+        [HttpPost]
+        [Route("password")]
+        public int PostOnChange([FromBody] string password)
+        {
+            int result = _iuserservice.CheckPassword(password);
+                return result;
+        }
+        
+
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User userFromClient)
         {
-             _iUserService.Put(id, userFromClient);
+            _iuserservice.Put(id, userFromClient);
         }
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+        
 
-        }
-        [HttpPost]
-        [Route("password")]
-        public int PostCheckScore([FromBody] string password)
-        {
-            return _iUserService.CheckPassword(password);
-        }
+     
     }
 }

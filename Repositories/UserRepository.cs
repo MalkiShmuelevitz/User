@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using Store.Models;
 using System.Text.Json;
 
 namespace Repositories
@@ -26,6 +27,7 @@ namespace Repositories
         }
         public async Task Put(int id,User user1)
         {
+            user1.Id = id;
             _managerDbContext.Users.Update(user1);
             await _managerDbContext.SaveChangesAsync();
         }
