@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Store.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Repositories
         }
         public async Task<Order> GetById(int id)
         {
-            return await managerDbContext.Orders.FindAsync(id);
+            return await managerDbContext.Orders.Include(o=>o.User).Include(l=>l.OrderItems).FirstOrDefaultAsync(o=>o.Id==id);
             //return await _managerDbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
         }

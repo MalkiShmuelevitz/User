@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Repositories;
+using Store.Models;
 using Zxcvbn;
 
 namespace Services
@@ -13,7 +14,11 @@ namespace Services
         {
             _iUserRepository = iUserRepository;
         }
-
+        public async Task<User> GetById(int id)
+        {
+            User user = await _iUserRepository.GetById(id);
+            return user;
+        }
         public async Task<User> PostLoginS(string username, string password)
         {
             return await _iUserRepository.PostLoginR(username, password);
@@ -23,7 +28,7 @@ namespace Services
             return await _iUserRepository.Post(user);
         }
 
-        public async void Put(int id, User user)
+        public async Task Put(int id, User user)
         {
            await _iUserRepository.Put(id, user);
         }

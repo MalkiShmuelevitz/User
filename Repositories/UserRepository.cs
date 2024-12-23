@@ -13,7 +13,11 @@ namespace Repositories
         {
             _managerDbContext = managerDbContext;
         }
-
+        public async Task<User> GetById(int id)
+        {
+            User user = await _managerDbContext.Users.FirstOrDefaultAsync(u => u.Id==id);
+            return user;
+        }
         public async Task<User> PostLoginR(string username, string password)
         {
             User user = await _managerDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username && u.Password == password);

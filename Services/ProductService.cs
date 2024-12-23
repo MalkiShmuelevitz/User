@@ -16,9 +16,10 @@ namespace Services
             this.productRepository = productRepository;
         }
 
-        public async Task<List<Product>> Get()
+        public async Task<List<Product>> Get(int position, int skip, string? desc, int? minPrice, int? maxPrice,
+            int?[] categoryIds)
         {
-            return await productRepository.Get();
+            return await productRepository.Get(position, skip, desc, minPrice, maxPrice, categoryIds);
         }
        
     }

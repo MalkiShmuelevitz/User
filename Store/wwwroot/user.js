@@ -46,7 +46,11 @@ const login = async () => {
         console.log('post data',dataLogin)
         //sessionStorage
         sessionStorage.setItem("id", dataLogin.id)
-        window.location.href = 'userDetails.html'
+
+        window.location.href = 'Products.html'
+
+        //if want update
+        //window.location.href = 'userDetails.html'
     }
     catch (error) {
         console.log(error)

@@ -16,6 +16,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<ManagerDbContext>(options => options.UseSqlServer
 ("Server=srv2\\pupils;Database=Manager_db;Trusted_Connection=True;TrustServerCertificate=True"));

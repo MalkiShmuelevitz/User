@@ -18,9 +18,21 @@ namespace Repositories
             _managerDbContext = managerDbContext;
         }
 
-        public async Task<List<Product>> Get()
+        public async Task<List<Product>> Get(int position,int skip,string? desc, int? minPrice,int? maxPrice,
+            int?[] categoryIds)
         {
-            return await _managerDbContext.Products.ToListAsync();
+            var query =  _managerDbContext.Products.Where(product =>
+            (desc == null ? (true) : (product.Description.Contains(desc)))
+            && ((minPrice == null) ? (true) : (product.Price >= minPrice))
+            && ((maxPrice == null) ? (true) : (product.Price <= maxPrice))
+            && ((categoryIds.Length == 0) ? (true) : (categoryIds.Contains(product.CategoryId))))
+                .OrderBy(product => product.Price);
+            //.Skip((position - 1) * skip)
+            //.Take(skip);
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.Include(p => p.Category).ToListAsync();
+            //return await _managerDbContext.Products.Include(p=>p.Category).ToListAsync();
+            return products;
         }
 
        

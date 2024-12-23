@@ -7,6 +7,7 @@ namespace Services
         int CheckPassword(string password);
         Task<User> Post(User user);
         Task<User> PostLoginS(string username, string password);
-        void Put(int id, User user);
+        Task Put(int id, User user);
+        Task<User> GetById(int id);
     }
 }
