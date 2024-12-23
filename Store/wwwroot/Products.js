@@ -71,7 +71,7 @@ const drawOneProduct = (product) => {
 
 
 const drawCategories = (categories) => {
-    for (int i = 0; i < categories.length; i++) {
+    for (var i = 0; i < categories.length; i++) {
         drawOneCategory(categories[i])
     }
 }
