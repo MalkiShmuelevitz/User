@@ -23,10 +23,10 @@ namespace Store.Controllers
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<getCategoryDTO>>> Get()
         {
             IEnumerable<Category> categories = await categoryService.Get();
-            IEnumerable<CategoryDTO> categoriesDTO = _imapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(categories);
+            IEnumerable<getCategoryDTO> categoriesDTO = _imapper.Map<IEnumerable<Category>, IEnumerable<getCategoryDTO>>(categories);
             if(categoriesDTO!=null)
                 return Ok(categoriesDTO);
             return NoContent();

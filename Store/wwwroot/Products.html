@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <script src=""></script>
+    <script src="Products.js"></script>
     <link href="Products.css" rel="stylesheet" />
 
     <meta charset="utf-8" />
@@ -51,7 +51,7 @@
                 <a href="shoppingbag.html">
                     <div class="Icon">
                         <div class="ItemCount">
-                            <span id="ItemsCountText">0</span>
+                            <span id="ItemsCountText"></span>
                         </div>
                     </div>
 
@@ -84,7 +84,7 @@
 
             <input type="text" id="nameSearch" class="floatRight" placeholder="חיפוש לפי שם מוצר">
 
-            <button class="floatRight" tabindex="0" onclick="filterProducts()">
+            <button class="floatRight" tabindex="0" onclick="getProductsList()">
                 <span class="header42"><img src="searchIcon.svg" alt="סמל חיפוש"></span>
             </button>
         </div>
@@ -92,17 +92,17 @@
             <div><span id="counter">  </span> מחיר:</div>
 
             <input type="text" maxlength="9" id="minPrice" class="priceInputText">
-            <span class="priceCurrency">₪</span>
+            <span class="priceCurrency">$</span>
 
             <input type="text" maxlength="9" id="maxPrice" class="priceInputText">
-            <span class="priceCurrency">₪</span>
-            <button onclick="filterProducts()">
+            <span class="priceCurrency">$</span>
+            <button onclick="getProductsList()">
                 <span><img src="searchIcon.svg" alt="סמל חיפוש"></span>
             </button>
         </div>
     </div>
 
-    <div id="PoductList">
+    <div id="ProductList">
 
     </div>
     <div class="pagination">

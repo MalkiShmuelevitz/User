@@ -1,46 +1,61 @@
-﻿
-const productsList = addEventListener("load", async () => {
-    getProducts()
+﻿const categories = []
+sessionStorage.setItem("categories", JSON.stringify(categories))
+
+const load = addEventListener("load", async () => {
+    let updateCart = JSON.parse(sessionStorage.getItem("cart")) || []
+    document.getElementById("ItemsCountText").innerHTML = updateCart.length
+    getProductsList()
+    getCategoriesList()
+    
 })
 
 const getAllFilters = () => {
-    document.getElementById('ProductList').innerHTML = ''
+    document.getElementById('ProductList').innerHTML = ""
     const filter = {
         minPrice: document.querySelector('#minPrice').value,
         maxPrice: document.querySelector('#maxPrice').value,
         desc: document.querySelector('#nameSearch').value,
-        categoryIds: []
+        categoryIds: JSON.parse(sessionStorage.getItem("categories")) || [],
+        skip: 0,
+        position:0
     }
     return filter;
 }
+
+
 const getProductsList = async () => {
     let filters = getAllFilters();
-    let url = `api/Product/?position=${filters.position}&skip=${filters.skip}`
+    let url = `api/Products/?position=${filters.position}&skip=${filters.skip}`
     if (filters.desc != '')
-        url = +`&desc=${filters.desc}`
+        url +=`&desc=${filters.desc}`
     if (filters.minPrice != '')
-        url = +`&minPrice=${filters.minPrice}`
-    if (filters.maxPrice != '')
-        url = +`&maxPrice=${filters.maxPrice}`
-    if (filters.categoryIds != '')
-        url = +`&categoryIds=${filters.categoryIds}`
-
+        url +=`&minPrice=${filters.minPrice}`
+    if (filters.maxPrice != '') 
+        url +=`&maxPrice=${filters.maxPrice}`
+    if (filters.categoryIds.length != 0) {
+        for (let i = 0; i < filters.categoryIds.length; i++) {
+            url +=`&categoryIds=${filters.categoryIds[i]}`
+        }
+    }
     try {
+        
         const response = await fetch(url, {
-            method: 'Get',
+            method: 'GET',
             headers: {
                 "Content-Type": "application/json"
             },
-            query: position: filters.position, skip: filters.skip, desc: filters.desc,
-            minPrice: filters.minPrice, maxPrice: filters.maxPrice, categoryIds: filters.categoryIds
+            query: {
+                position: filters.position, skip: filters.skip, desc: filters.desc,
+                minPrice: filters.minPrice, maxPrice: filters.maxPrice, categoryIds: filters.categoryIds
+            }
         })
-
+        let productData
         if (response.status == 204) {
             alert("there is not products")
             productData = []
         }
         else {
-            const productData = await response.json()
+            productData = await response.json()
         }
         drawProducts(productData)
     }
@@ -48,27 +63,38 @@ const getProductsList = async () => {
         console.log(error)
     }
 }
-
-
-
+const getCategoriesList = async() => {
+    try {
+        const data =await fetch("api/Categories", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        let categories=await data.json()
+        drawCategories(categories)
+        console.log(categories)
+    }
+    catch (error) {
+        alert(error)
+    }
+}
 const drawProducts = (products) => {
     for (var i = 0; i < products.length; i++) {
         drawOneProduct(products[i])
     }
 }
 
-
 const drawOneProduct = (product) => {
     let tmp = document.getElementById('temp-card');
     let cloneProduct = tmp.content.cloneNode(true)
-    cloneProduct.querySelector('img').src = "./Image/" + product.Image
-    cloneProduct.querySelector('h1').textContent = product.Name
-    cloneProduct.querySelector('.price').innerText = product.Price
-    cloneProduct.querySelector('.description').innerText = product.Description
-    cloneProduct.querySelector('.button').addEventListener("click", () => { })
+    cloneProduct.querySelector('img').src = "./Image/" + product.picture
+    cloneProduct.querySelector('h1').innerText = product.productName
+    cloneProduct.querySelector('.price').innerText = `${product.price}$`
+    cloneProduct.querySelector('.description').innerText = product.description
+    cloneProduct.querySelector('button').addEventListener("click", () => { addToCart(product) })
     document.getElementById('ProductList').appendChild(cloneProduct)
 }
-
 
 const drawCategories = (categories) => {
     for (var i = 0; i < categories.length; i++) {
@@ -80,7 +106,39 @@ const drawCategories = (categories) => {
 const drawOneCategory = (category) => {
     let tmp = document.getElementById('temp-category');
     let cloneCategory = tmp.content.cloneNode(true)
-    cloneCategory.querySelector('.opt').addEventListener('checked', () => { })
-    cloneCategory.querySelector('.OptionName').textContent = category.Name
+    cloneCategory.querySelector('.opt').addEventListener('change', () => { chooseCategories(category.id) })
+    cloneCategory.querySelector('.OptionName').innerText = category.categoryName
     document.getElementById('categoryList').appendChild(cloneCategory)
+    console.log(cloneCategory)
 }
+
+const chooseCategories = (categoryId) => {
+    //console.log(event)
+    let currentCategories = JSON.parse(sessionStorage.getItem("categories"))
+    let index = currentCategories.indexOf(categoryId)
+    if (index == -1) {
+        currentCategories.push(categoryId)
+        //console.log(currentCategories)
+    }
+    else {
+        currentCategories.splice(index,1)
+        
+    }
+    sessionStorage.setItem("categories", JSON.stringify(currentCategories))
+    getProductsList()
+}
+
+const addToCart = (product) => {
+    if (!JSON.parse(sessionStorage.getItem("id"))) {
+        alert("user not found, go to login")
+        window.location.href = 'login.html'
+    }
+    else {
+        let updateCart = JSON.parse(sessionStorage.getItem("cart")) || []
+        updateCart.push(product)
+        sessionStorage.setItem("cart", JSON.stringify(updateCart))
+        document.getElementById("ItemsCountText").innerHTML = updateCart.length
+    }
+    
+}
+

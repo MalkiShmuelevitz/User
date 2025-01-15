@@ -23,17 +23,21 @@ namespace Repositories
             User user = await _managerDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username && u.Password == password);
             return user;
         }
-        public async Task<User> Post(User user)
+        public async Task<User> Post(User newUser)
         {
-            await _managerDbContext.Users.AddAsync(user);
-            await _managerDbContext.SaveChangesAsync();
-            return user;
+           var user = await _managerDbContext.Users.AddAsync(newUser);
+           await _managerDbContext.SaveChangesAsync();
+
+            return newUser;
+            //return user;
         }
         public async Task Put(int id,User user1)
         {
             user1.Id = id;
-            _managerDbContext.Users.Update(user1);
+            var result = _managerDbContext.Users.Update(user1);
             await _managerDbContext.SaveChangesAsync();
+            //< User >
+            //return result;
         }
     }
 }
