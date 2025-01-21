@@ -13,11 +13,13 @@ namespace Store.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ILogger<UsersController> _logger;
         IUserService _iuserservice;
         IMapper _imapper;
 
-        public UsersController(IUserService iuserservice, IMapper _imapper)
+        public UsersController(IUserService iuserservice, IMapper _imapper,ILogger<UsersController> logger)
         {
+            _logger = logger;
             this._imapper = _imapper;
             _iuserservice = iuserservice;
         }
@@ -37,14 +39,18 @@ namespace Store.Controllers
         // POST api/<UsersController>0w
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<GetUserDTO>> PostLogin([FromQuery] string username,string password)
+        public async Task<ActionResult<GetUserDTO>> PostLogin([FromQuery] string username, string password)
         {
             //check it:    [FromQuery] string username,string password
             //where we will put the ask of the null?
+
             User user = await _iuserservice.PostLoginS(username, password);
             GetUserDTO userDTO = _imapper.Map<User, GetUserDTO>(user);
             if (userDTO != null)
+            {
+                _logger.LogCritical($"Login with username - {username} and password - {password}");
                 return Ok(userDTO);
+            }
             return NoContent();
         }
 

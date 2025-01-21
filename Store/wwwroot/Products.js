@@ -71,7 +71,14 @@ const getCategoriesList = async() => {
                 "Content-Type": "application/json"
             }
         })
-        let categories=await data.json()
+        let categories
+        if (data.status == 204) {
+            alert("there is not categories")
+            categories = []
+        }
+        else {
+            categories = await data.json()
+        }
         drawCategories(categories)
         console.log(categories)
     }

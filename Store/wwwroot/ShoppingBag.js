@@ -47,12 +47,21 @@ const placeOrder = async () => {
             body: JSON.stringify(order)
         })
         let orderData = await data.json()
-        console.log(orderData)
-        alert(`Your order received seccessfully!!!`)
-        sessionStorage.setItem("cart", JSON.stringify([]))
-        window.location.reload()
+        if (data.status == 201) {
+            console.log(orderData)
+            alert(`Your order received seccessfully!!!`)
+            sessionStorage.setItem("cart", JSON.stringify([]))
+            //window.location.reload()
+        }
+        if (data.status == 400) {
+            alert(`Your order not complete ${data.title}`)
+        }
+        //else {
+
+        //}
     }
     catch (error) {
+        alert(`Your order not complete because: ${error}`)
         console.log(error)
     }
 }
