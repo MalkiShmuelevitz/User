@@ -6,7 +6,7 @@ const load = addEventListener("load", async () => {
     document.getElementById("ItemsCountText").innerHTML = updateCart.length
     getProductsList()
     getCategoriesList()
-    
+
 })
 
 const getAllFilters = () => {
@@ -25,20 +25,20 @@ const getAllFilters = () => {
 
 const getProductsList = async () => {
     let filters = getAllFilters();
-    let url = `api/Products/?position=${filters.position}&skip=${filters.skip}`
+    let url = `api/Products/?position=${filters.position}&skip=${filters.skip}`//build url in a seperated func
     if (filters.desc != '')
         url +=`&desc=${filters.desc}`
     if (filters.minPrice != '')
         url +=`&minPrice=${filters.minPrice}`
-    if (filters.maxPrice != '') 
+    if (filters.maxPrice != '')
         url +=`&maxPrice=${filters.maxPrice}`
     if (filters.categoryIds.length != 0) {
-        for (let i = 0; i < filters.categoryIds.length; i++) {
+        for (let i = 0; i < filters.categoryIds.length; i++) {//use map or forEach instead of for
             url +=`&categoryIds=${filters.categoryIds[i]}`
         }
     }
     try {
-        
+
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -87,7 +87,7 @@ const getCategoriesList = async() => {
     }
 }
 const drawProducts = (products) => {
-    for (var i = 0; i < products.length; i++) {
+    for (var i = 0; i < products.length; i++) {//forEach
         drawOneProduct(products[i])
     }
 }
@@ -104,7 +104,7 @@ const drawOneProduct = (product) => {
 }
 
 const drawCategories = (categories) => {
-    for (var i = 0; i < categories.length; i++) {
+    for (var i = 0; i < categories.length; i++) {//forEach
         drawOneCategory(categories[i])
     }
 }
@@ -129,7 +129,7 @@ const chooseCategories = (categoryId) => {
     }
     else {
         currentCategories.splice(index,1)
-        
+
     }
     sessionStorage.setItem("categories", JSON.stringify(currentCategories))
     getProductsList()
@@ -146,6 +146,6 @@ const addToCart = (product) => {
         sessionStorage.setItem("cart", JSON.stringify(updateCart))
         document.getElementById("ItemsCountText").innerHTML = updateCart.length
     }
-    
+
 }
 
