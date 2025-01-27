@@ -9,8 +9,8 @@ const totalAmountAndPrice = (total) => {
 
 }
 const drawProductInCart = () => {
-    
-    for (let i = 0; i < cart.length; i++) {
+
+    for (let i = 0; i < cart.length; i++) {//forEach
         totalPrice += cart[i].price
         drawOneProductInCart(cart[i])
     }
