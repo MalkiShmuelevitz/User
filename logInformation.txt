@@ -1,0 +1,8 @@
+2025-03-03 14:57:30.7573 Info Loading assembly name: NLog.MailKit
+2025-03-03 14:57:30.7749 Info NLog.MailKit, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.7957. Product version: 5.3+9ef8e80a2d4d2222f0cae59868deaa715a68a2da. GlobalAssemblyCache: False
+2025-03-03 14:57:30.8043 Info Registered target NLog.Targets.FileTarget(Name=mylogfile)
+2025-03-03 14:57:30.8172 Info Registered target NLog.MailKit.MailTarget(Name=email)
+2025-03-03 14:57:30.8347 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.4.2778. Product version: 5.3.4+73d83d3161d31288ca5c554cc50d27b6bed5f28b. GlobalAssemblyCache: False
+2025-03-03 14:57:30.8347 Info Validating config: TargetNames=mylogfile, email, ConfigItems=58, FilePath=C:\Users\214367393\Desktop\Store\Store\nlog.config
+2025-03-03 14:57:30.8545 Info Configuration initialized.
+2025-03-03 14:58:39.7246 Info NLogRequestPostedBodyMiddleware is not yet initialized, which is required by aspnet-request-posted-body.

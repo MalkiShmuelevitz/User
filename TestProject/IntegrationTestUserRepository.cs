@@ -11,30 +11,28 @@ namespace TestProject
 {
     public class IntegrationTestUserRepository : IClassFixture<DataBaseFixture>
     {
-
-        private readonly ManagerDbContext _context;
-
-        public IntegrationTestUserRepository(DataBaseFixture fixture)
+        private readonly DataBaseFixture _dbFixture;
+        public IntegrationTestUserRepository()
         {
-            _context = fixture.Context;
+            _dbFixture = new();
         }
 
         [Fact]
-        public async Task GetUserLogin_validate_returnUser()
+        public async Task CreateUser_Should_Add_User_To_Database()
         {
             // Arrange
-            var user = new User { UserName = "test@example.com", Password = "password123" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var _repository = new UserRepository(_dbFixture.Context);
 
             // Act
-            var retrievedUser = await _context.Users.FindAsync(user.Id);
+            var user = new User { FirstName = "Malki", LastName = "Shmuelevitz", UserName = "mmm@gmail.com", Password = "21436@dfgAS@@!" };
+            var dbUser = await _repository.Post(user);
 
             // Assert
-            Assert.NotNull(retrievedUser);
-            Assert.Equal(user.UserName, retrievedUser.UserName);
-            Assert.Equal(user.Password, retrievedUser.Password);
-
+            Assert.NotNull(dbUser);
+            Assert.NotEqual(0, dbUser.Id);
+            Assert.Equal("mmm@gmail.com", dbUser.UserName);
+            _dbFixture.Dispose();
         }
+
     }
 }

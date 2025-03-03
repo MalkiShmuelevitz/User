@@ -2,11 +2,13 @@
 sessionStorage.setItem("categories", JSON.stringify(categories))
 
 const load = addEventListener("load", async () => {
-    let updateCart = JSON.parse(sessionStorage.getItem("cart")) || []
-    document.getElementById("ItemsCountText").innerHTML = updateCart.length
+    //const cart = []
+    //sessionStorage.setItem("cart", JSON.stringify(cart))
     getProductsList()
     getCategoriesList()
-    
+    let updateCart = JSON.parse(sessionStorage.getItem("cart")) || []
+    document.getElementById("ItemsCountText").innerHTML = updateCart.length
+   
 })
 
 const getAllFilters = () => {
@@ -136,16 +138,13 @@ const chooseCategories = (categoryId) => {
 }
 
 const addToCart = (product) => {
-    if (!JSON.parse(sessionStorage.getItem("id"))) {
-        alert("user not found, go to login")
-        window.location.href = 'login.html'
-    }
-    else {
+  
+   /* else {*/
         let updateCart = JSON.parse(sessionStorage.getItem("cart")) || []
         updateCart.push(product)
         sessionStorage.setItem("cart", JSON.stringify(updateCart))
         document.getElementById("ItemsCountText").innerHTML = updateCart.length
-    }
+    //}
     
 }
 

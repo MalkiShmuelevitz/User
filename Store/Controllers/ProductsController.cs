@@ -16,9 +16,11 @@ namespace Store.Controllers
     {
         IProductService productService;
         IMapper _imapper;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IProductService productservice, IMapper _imapper)
+        public ProductsController(IProductService productservice, IMapper _imapper, ILogger<ProductsController> logger)
         {
+            this._logger = logger;
             this._imapper = _imapper;
             this.productService = productservice;
         }
@@ -31,7 +33,10 @@ namespace Store.Controllers
             IEnumerable<Product> products = await productService.Get(position, skip, desc, minPrice, maxPrice, categoryIds);
             IEnumerable<ProductDTO> productsDTO = _imapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
             if(productsDTO != null)
+            {
+                _logger.LogInformation($"------------------The application load successfully----------------------");
                 return Ok(productsDTO);
+            }
             return NoContent();
         }
 

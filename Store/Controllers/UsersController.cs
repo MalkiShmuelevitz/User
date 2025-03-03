@@ -4,6 +4,7 @@ using Services;
 using Entities;
 using AutoMapper;
 using DTO;
+using Microsoft.Extensions.Caching.Memory;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Store.Controllers
@@ -16,12 +17,15 @@ namespace Store.Controllers
         private readonly ILogger<UsersController> _logger;
         IUserService _iuserservice;
         IMapper _imapper;
+        private readonly IMemoryCache _cache;
 
-        public UsersController(IUserService iuserservice, IMapper _imapper,ILogger<UsersController> logger)
+        public UsersController(IUserService iuserservice, IMapper _imapper,ILogger<UsersController> logger, IMemoryCache cache)
         {
             _logger = logger;
             this._imapper = _imapper;
             _iuserservice = iuserservice;
+            _cache = cache;
+
         }
 
 
@@ -48,7 +52,7 @@ namespace Store.Controllers
             GetUserDTO userDTO = _imapper.Map<User, GetUserDTO>(user);
             if (userDTO != null)
             {
-                _logger.LogCritical($"Login with username - {username} and password - {password}");
+                _logger.LogInformation($"Login with username - {username} and password - {password}");
                 return Ok(userDTO);
             }
             return NoContent();

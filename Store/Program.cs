@@ -6,7 +6,7 @@ using Store.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 // Add services to the container.
@@ -21,9 +21,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddDbContext<ManagerDbContext>(options => options.UseSqlServer
-("Server=srv2\\pupils;Database=Manager_db;Trusted_Connection=True;TrustServerCertificate=True"));
+builder.Services.AddDbContext<ManagerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("School")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

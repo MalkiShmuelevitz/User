@@ -41,9 +41,7 @@ namespace Services
                Product p = await _productRepository.GetById(item.ProductId);
                sum += p.Price;
             }
-            if (sum != order.OrderSum)
-                return false;
-            return true;
+            return (sum == order.OrderSum);
         }
 
     }

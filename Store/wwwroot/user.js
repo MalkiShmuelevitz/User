@@ -46,10 +46,9 @@ const login = async () => {
         console.log('post data',dataLogin)
         //sessionStorage
         sessionStorage.setItem("id", dataLogin.id)
-        const cart = []
-        sessionStorage.setItem("cart", JSON.stringify(cart))
         window.location.href = 'Options.html'
-
+        //const cart = []
+        //sessionStorage.setItem("cart", JSON.stringify(cart))
         //if want update
         //window.location.href = 'userDetails.html'
     }

@@ -34,7 +34,7 @@ namespace TestProject
         {
             // Arrange
             var userId = 1;
-            var expectedUser = new User { Id = userId, UserName = "testuser@example.com" }; // הנחית כאן את פרטיך של המשתמש
+            var expectedUser = new User { Id = userId, UserName = "testuser@example.com" };
 
             var mockContext = new Mock<ManagerDbContext>();
             var users = new List<User> { expectedUser };
