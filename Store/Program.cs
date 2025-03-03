@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Services;
-using Store;
-using Store.Models;
 using NLog.Web;
+using Store.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseErrorHandlingMiddleware();
+
 app.UseRatingMiddleware();
 
 app.UseHttpsRedirection();

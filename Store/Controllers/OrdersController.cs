@@ -35,11 +35,16 @@ namespace Store.Controllers
 
         // POST api/<OrdersController>
         [HttpPost]
-        public async Task<ActionResult<OrderDTO>> Post([FromBody] OrderDTO order)
+        public async Task<ActionResult<GetOrderDTO>> Post([FromBody] OrderDTO order)
         {
             Order orderF = _imapper.Map<OrderDTO, Order>(order);
-            await _orderService.Post(orderF);
-            return CreatedAtAction(nameof(Get), new { Id = order.UserId }, order);/////????
+            Order order1 = await _orderService.Post(orderF);
+            if(order1 == null)
+                return Unauthorized();
+            //return CreatedAtAction(nameof(GetById), new { Id = order.Id }, order);
+            GetOrderDTO getOrder = _imapper.Map<Order, GetOrderDTO>(order1);
+            return Ok(getOrder);
+            //////////////////////////////////????
         }
 
     }

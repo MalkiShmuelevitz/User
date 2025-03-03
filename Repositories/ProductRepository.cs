@@ -1,6 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
-using Store.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,11 @@ namespace Repositories
             //return await _managerDbContext.Products.Include(p=>p.Category).ToListAsync();
             return products;
         }
+        public async Task<Product> GetById(int id)
+        {
+            return await _managerDbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-       
+        }
+
     }
 }

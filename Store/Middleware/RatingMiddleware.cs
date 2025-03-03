@@ -5,7 +5,7 @@ using Repositories;
 using Services;
 using System.Threading.Tasks;
 
-namespace Store
+namespace Store.Middleware
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class RatingMiddleware

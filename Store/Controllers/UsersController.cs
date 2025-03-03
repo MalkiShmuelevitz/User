@@ -57,11 +57,10 @@ namespace Store.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostNewUser([FromBody] UserDTO user)
         {
-            int result = _iuserservice.CheckPassword(user.Password);
-            if (result <= 3)
-                return NotFound(result);
             User user1 = _imapper.Map<UserDTO, User>(user);
             User newUser =  await _iuserservice.Post(user1);
+            if(newUser == null)
+                return NotFound();
             UserDTO newUser1 = _imapper.Map<User,UserDTO>(newUser) ;
             if (newUser1 != null)
                 return Ok(newUser1);
@@ -77,7 +76,7 @@ namespace Store.Controllers
             int result = _iuserservice.CheckPassword(password);
             return result;
         }
-        
+
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody] UserDTO user)

@@ -33,6 +33,7 @@ const deleteProductInCart = (pName) => {
     console.log(cart)
     sessionStorage.setItem("cart", JSON.stringify(cart))
     document.querySelector("tbody").innerHTML = ""
+    totalPrice = 0
     drawProductInCart()
 }
 const placeOrder = async () => {
@@ -47,14 +48,19 @@ const placeOrder = async () => {
             body: JSON.stringify(order)
         })
         let orderData = await data.json()
-        if (data.status == 201) {
+        if (data.status == 200) {
             console.log(orderData)
-            alert(`Your order received seccessfully!!!`)
+            alert(`order ${orderData.id} was placed successfully!!!`)
             sessionStorage.setItem("cart", JSON.stringify([]))
-            //window.location.reload()
+            window.location.href = "products.html"
         }
         if (data.status == 400) {
             alert(`Your order not complete ${data.title}`)
+        }
+        //if (orderData.orderItems.length)
+        //    alert(`your cart is empty 😫`)
+        else if (data.status == 401) {
+            alert(`YOU CAN NOT Complete your order 😪`)
         }
         //else {
 

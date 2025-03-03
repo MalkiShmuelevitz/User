@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Entities;
-namespace Store.Models;
+namespace Repositories;
 
 public partial class ManagerDbContext : DbContext
 {

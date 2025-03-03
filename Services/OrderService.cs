@@ -9,20 +9,42 @@ namespace Services
 {
     public class OrderService : IOrderService
     {
-        IOrderRepository orderRepository;
+        IOrderRepository _orderRepository;
+        IProductRepository _productRepository;
 
-        public OrderService(IOrderRepository orderRepository)
+
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository)
         {
-            this.orderRepository = orderRepository;
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<Order> Post(Order order)
         {
-            return await orderRepository.Post(order);
-        }
+            bool check = await CheckSumOfOrder(order);
+            if (!check)
+                return null;
+            if (order.OrderItems.Count == 0)
+                return null;
+            Order order1 = await _orderRepository.Post(order);
+            return order1;
+    }
         public async Task<Order> GetById(int id)
         {
-            return await orderRepository.GetById(id);
+            return await _orderRepository.GetById(id);
         }
+        public async Task<bool> CheckSumOfOrder(Order order)
+        {
+            int sum = 0;
+            foreach (var item in order.OrderItems)
+            {
+               Product p = await _productRepository.GetById(item.ProductId);
+               sum += p.Price;
+            }
+            if (sum != order.OrderSum)
+                return false;
+            return true;
+        }
+
     }
 }

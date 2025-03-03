@@ -1,6 +1,5 @@
 ﻿using Entities;
 using Repositories;
-using Store.Models;
 using Zxcvbn;
 
 namespace Services
@@ -25,7 +24,11 @@ namespace Services
         }
         public async Task<User> Post(User user)
         {
-            return await _iUserRepository.Post(user);
+            int result = CheckPassword(user.Password);
+            if (result <= 3)
+                return null;
+            await _iUserRepository.Post(user);
+            return user;
         }
 
         public async Task Put(int id, User user)
