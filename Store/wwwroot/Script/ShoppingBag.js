@@ -52,9 +52,6 @@ const placeOrder = async () => {
                 },
                 body: JSON.stringify(order)
             })
-           
-            let orderData = await data.json()
-
             if (data.status == 400) {
                 throw new Error(`Your order not complete ${data.title}`)
             }
@@ -67,6 +64,7 @@ const placeOrder = async () => {
                 throw new Error(`YOU CAN NOT Complete your order 😪`)
             }
             else {
+                let orderData = await data.json()
                 alert(`order ${orderData.id} was placed successfully!!!`)
                 sessionStorage.setItem("cart", JSON.stringify([]))
                 window.location.href = "products.html"
