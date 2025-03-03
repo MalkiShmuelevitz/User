@@ -27,13 +27,15 @@ namespace Services
             int result = CheckPassword(user.Password);
             if (result <= 3)
                 return null;
-            await _iUserRepository.Post(user);
-            return user;
+            return await _iUserRepository.Post(user);
         }
 
-        public async Task Put(int id, User user)
+        public async Task<User> Put(int id, User user)
         {
-           await _iUserRepository.Put(id, user);
+            int result = CheckPassword(user.Password);
+            if (result <= 3)
+                return null;
+            return await _iUserRepository.Put(id, user);
         }
         public int CheckPassword(string password)
         {

@@ -52,15 +52,19 @@ const placeOrder = async () => {
                 },
                 body: JSON.stringify(order)
             })
+           
             let orderData = await data.json()
 
             if (data.status == 400) {
-                alert(`Your order not complete ${data.title}`)
+                throw new Error(`Your order not complete ${data.title}`)
+            }
+            else if (data.status == 204) {
+                throw new Error(`You hav'nt products in your order`)
             }
             //if (orderData.orderItems.length)
             //    alert(`your cart is empty 😫`)
             else if (data.status == 401) {
-                alert(`YOU CAN NOT Complete your order 😪`)
+                throw new Error(`YOU CAN NOT Complete your order 😪`)
             }
             else {
                 alert(`order ${orderData.id} was placed successfully!!!`)
@@ -72,7 +76,7 @@ const placeOrder = async () => {
             //}
         }
         catch (error) {
-            alert(`Your order not complete because: ${error}`)
+            alert(error)
             //console.log(error)
         }
     }

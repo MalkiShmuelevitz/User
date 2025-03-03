@@ -83,14 +83,14 @@ namespace Store.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] UserDTO user)
+        public async Task<ActionResult<GetUserDTO>> Put(int id, [FromBody] UserDTO user)
         {
             User user1 = _imapper.Map<UserDTO, User>(user);
-            await _iuserservice.Put(id, user1);
+            User user2 = await _iuserservice.Put(id, user1);
+            if (user2 == null)
+                return NotFound();
+            GetUserDTO newUser1 = _imapper.Map<User, GetUserDTO>(user2);
+            return newUser1;
         }
-
-        
-
-     
     }
 }

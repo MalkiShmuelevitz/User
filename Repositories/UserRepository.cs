@@ -26,16 +26,14 @@ namespace Repositories
         {
            var user = await _managerDbContext.Users.AddAsync(newUser);
            await _managerDbContext.SaveChangesAsync();
-           return newUser;
-            //return user;
+           return user.Entity;
         }
-        public async Task Put(int id,User user1)
+        public async Task<User> Put(int id,User user1)
         {
             user1.Id = id;
             var result = _managerDbContext.Users.Update(user1);
             await _managerDbContext.SaveChangesAsync();
-            //< User >
-            //return result;
+            return result.Entity;
         }
     }
 }

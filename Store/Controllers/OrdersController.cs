@@ -40,11 +40,16 @@ namespace Store.Controllers
         [HttpPost]
         public async Task<ActionResult<GetOrderDTO>> Post([FromBody] OrderDTO order)
         {
+            if (order.OrderItems.Count == 0)
+            {
+                return NoContent();
+            }
             Order orderF = _imapper.Map<OrderDTO, Order>(order);
+
             Order order1 = await _orderService.Post(orderF);
             if(order1 == null)
             {
-                _logger.LogInformation($" User Id: {order.UserId} try to change the SUM of the order");
+                _logger.LogCritical($" User Id: {order.UserId} try to change the SUM of the order");
                 return Unauthorized();
             }
             //return CreatedAtAction(nameof(GetById), new { Id = order.Id }, order);

@@ -100,6 +100,7 @@ const register = async () => {
         if (postFromData.status == 404) {
             throw new Error("password not strenge")
         }
+        
         const dataPost = await postFromData.json()
         console.log('post data', dataPost)
         alert("user register succussfully")
@@ -112,6 +113,15 @@ const updateUser = async () => {
     console.log(sessionStorage.getItem("id"))
     const user = getDataFromUpdate()
     try {
+        if (user.username.length > 50) {
+            throw new Error("the username must be smaller than 50")
+        }
+        if (user.password.length > 20) {
+            throw new Error("the password must be smaller than 20")
+        }
+        if (user.username == null || user.password == null) {
+            throw new Error("username and password fields are required")
+        }
         console.log(sessionStorage.getItem("id"))
         const updateFromData = await fetch(`api/Users/${sessionStorage.getItem("id")}`, {
             method: 'PUT',
@@ -123,6 +133,9 @@ const updateUser = async () => {
         if (updateFromData.status == 400) {
             console.log(updateFromData)
             throw new Error("all fields are required")
+        }
+        if (updateFromData.status == 404) {
+            throw new Error("password not strenge")
         }
         alert(`user ${sessionStorage.getItem("id")} update`)
         window.location.href = 'Options.html'

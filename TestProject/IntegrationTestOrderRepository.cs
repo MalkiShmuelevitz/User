@@ -31,7 +31,6 @@ namespace TestProject
             Assert.NotNull(dbOrder);
             Assert.NotEqual(0, dbOrder.Id);
             Assert.Equal(1, dbOrder.UserId);
-            _dbFixture.Dispose();
         }
     }
 }
