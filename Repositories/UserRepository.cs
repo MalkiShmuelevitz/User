@@ -33,5 +33,9 @@ namespace Repositories
             await _managerDbContext.SaveChangesAsync();
             return result.Entity;
         }
+        public async Task<User> CheckIfUserExist(User user)
+        {
+            return await _managerDbContext.Users.FirstOrDefaultAsync(u => u.UserName == user.UserName);
+        }
     }
 }

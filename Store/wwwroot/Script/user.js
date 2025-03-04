@@ -71,8 +71,8 @@ const register = async () => {
         if (user.password.length > 20) {
             throw new Error("The password must be smaller than 20 characters");
         }
-        if (!user.username || !user.password) {
-            throw new Error("Username and password fields are required");
+        if (!user.username || !user.password || !user.firstname || !user.lastname) {
+            throw new Error("All fields are required");
         }
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(user.username)) {
@@ -89,8 +89,11 @@ const register = async () => {
         if (postFromData.status === 400) {
             throw new Error("All fields are required");
         }
-        if (postFromData.status === 404) {
+        if (postFromData.status === 422) {
             throw new Error("Password not strong enough");
+        }
+        if (postFromData.status == 409) {
+            throw new Error("Duplicate User");
         }
         const dataPost = await postFromData.json();
         alert("User registered successfully");

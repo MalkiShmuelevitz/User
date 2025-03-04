@@ -42,5 +42,9 @@ namespace Services
             return (result.Score);
 
         }
+        public async Task<User> CheckIfUserExist(User user)
+        {
+            return await _iUserRepository.CheckIfUserExist(user);
+        }
     }
 }
