@@ -44,9 +44,6 @@ namespace Store.Controllers
         [Route("login")]
         public async Task<ActionResult<GetUserDTO>> PostLogin([FromQuery] string username, string password)
         {
-            //check it:    [FromQuery] string username,string password
-            //where we will put the ask of the null?
-
             User user = await _iuserservice.PostLoginS(username, password);
             GetUserDTO userDTO = _imapper.Map<User, GetUserDTO>(user);
             if (userDTO != null)
@@ -67,7 +64,6 @@ namespace Store.Controllers
             GetUserDTO newUser1 = _imapper.Map<User,GetUserDTO>(newUser) ;
             if (newUser1 != null)
                 return Ok(newUser1);
-            //return CreatedAtAction(nameof(GetById), new { UserName = newUser1.UserName }, newUser1);
             return NoContent();
 
         }
