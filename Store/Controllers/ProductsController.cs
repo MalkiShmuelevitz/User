@@ -34,7 +34,6 @@ namespace Store.Controllers
             IEnumerable<ProductDTO> productsDTO = _imapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
             if(productsDTO != null)
             {
-                _logger.LogInformation($"------------------The application load successfully----------------------");
                 return Ok(productsDTO);
             }
             return NoContent();
