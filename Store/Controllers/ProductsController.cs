@@ -27,16 +27,14 @@ namespace Store.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> Get([FromQuery]int position, [FromQuery] int skip, [FromQuery] string? desc, [FromQuery] int? minPrice, [FromQuery] int? maxPrice,
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> Get([FromQuery] int position, [FromQuery] int skip, [FromQuery] string? desc, [FromQuery] int? minPrice, [FromQuery] int? maxPrice,
            [FromQuery] int?[] categoryIds)
         {
             IEnumerable<Product> products = await productService.Get(position, skip, desc, minPrice, maxPrice, categoryIds);
             IEnumerable<ProductDTO> productsDTO = _imapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
-            if(productsDTO != null)
+            if (productsDTO != null)
                 return Ok(productsDTO);
             return NoContent();
         }
-
-        
     }
 }
