@@ -14,13 +14,11 @@ namespace Repositories
         }
         public async Task<User> GetById(int id)
         {
-            User user = await _managerDbContext.Users.FirstOrDefaultAsync(u => u.Id==id);
-            return user;
+            return await _managerDbContext.Users.FirstOrDefaultAsync(u => u.Id==id);
         }
         public async Task<User> PostLoginR(string username, string password)
         {
-            User user = await _managerDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username && u.Password == password);
-            return user;
+            return await _managerDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username && u.Password == password);
         }
         public async Task<User> Post(User newUser)
         {

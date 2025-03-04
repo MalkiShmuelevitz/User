@@ -41,6 +41,18 @@ namespace TestProject
 
             _dbFixture.Dispose();
         }
-        
+        [Fact]
+        public async Task CreateOrder_Should_Fail_If_UserId_Is_Invalid()
+        {
+            // Arrange
+            var _orderRepository = new OrderRepository(_dbFixture.Context);
+
+            var order = new Order { UserId = 999, OrderDate = DateTime.Now, OrderSum = 100 };
+
+            // Act
+            await Assert.ThrowsAsync<DbUpdateException>(async () => await _orderRepository.Post(order));
+            _dbFixture.Dispose();
+        }
+
     }
 }

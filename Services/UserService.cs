@@ -15,8 +15,7 @@ namespace Services
         }
         public async Task<User> GetById(int id)
         {
-            User user = await _iUserRepository.GetById(id);
-            return user;
+            return await _iUserRepository.GetById(id);
         }
         public async Task<User> PostLoginS(string username, string password)
         {

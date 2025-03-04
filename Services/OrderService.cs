@@ -24,11 +24,10 @@ namespace Services
             bool check = await CheckSumOfOrder(order);
             if (!check)
                 return null;
-            if (order.OrderItems.Count == 0)
-                return null;
+
             Order order1 = await _orderRepository.Post(order);
             return order1;
-    }
+        }
         public async Task<Order> GetById(int id)
         {
             return await _orderRepository.GetById(id);

@@ -6,7 +6,7 @@ using Store.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMemoryCache();
+builder.Services.AddMemoryCache(); 
 
 builder.Services.AddControllers();
 // Add services to the container.

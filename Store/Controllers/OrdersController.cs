@@ -41,11 +41,8 @@ namespace Store.Controllers
         public async Task<ActionResult<GetOrderDTO>> Post([FromBody] OrderDTO order)
         {
             if (order.OrderItems.Count == 0)
-            {
                 return NoContent();
-            }
             Order orderF = _imapper.Map<OrderDTO, Order>(order);
-
             Order order1 = await _orderService.Post(orderF);
             if(order1 == null)
             {

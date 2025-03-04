@@ -13,7 +13,7 @@ namespace Store
             CreateMap<Order, OrderDTO>();
             CreateMap<Order, GetOrderDTO>();
             CreateMap<Category, CategoryDTO>();
-            CreateMap<Category, getCategoryDTO>();
+            CreateMap<Category, GetCategoryDTO>();
             CreateMap<OrderItemDTO, OrderItem>();
             CreateMap<OrderItem, OrderItemDTO>();
             CreateMap<User, UserDTO>();
