@@ -33,9 +33,7 @@ namespace Store.Controllers
             IEnumerable<Product> products = await productService.Get(position, skip, desc, minPrice, maxPrice, categoryIds);
             IEnumerable<ProductDTO> productsDTO = _imapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
             if(productsDTO != null)
-            {
                 return Ok(productsDTO);
-            }
             return NoContent();
         }
 
