@@ -10,10 +10,13 @@ namespace TestProject
         public DataBaseFixture()
         {
             var options = new DbContextOptionsBuilder<ManagerDbContext>()
-            .UseSqlServer("Server=srv2\\pupils;Database=Tests;Trusted_Connection=True;TrustServerCertificate=True")
-            .Options;
+                .UseSqlServer("Server=srv2\\pupils;Database=Test_malki;Trusted_Connection=True;TrustServerCertificate=True")
+                .Options;
+
             Context = new ManagerDbContext(options);
+            Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
+            
         }
 
         public void Dispose()
@@ -21,6 +24,5 @@ namespace TestProject
             Context.Database.EnsureDeleted();
             Context.Dispose();
         }
-
     }
 }

@@ -24,9 +24,9 @@ namespace Repositories
         }
         public async Task<Order> Post(Order order)
         {
-            await managerDbContext.Orders.AddAsync(order);
+            var order1 = await managerDbContext.Orders.AddAsync(order);
             await managerDbContext.SaveChangesAsync();
-            return order;
+            return order1.Entity;
         }
     }
 }

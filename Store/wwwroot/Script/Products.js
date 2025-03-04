@@ -89,9 +89,9 @@ const getCategoriesList = async() => {
     }
 }
 const drawProducts = (products) => {
-    for (var i = 0; i < products.length; i++) {
-        drawOneProduct(products[i])
-    }
+    products.forEach((product)=> {
+        drawOneProduct(product);
+    });
 }
 
 const drawOneProduct = (product) => {
@@ -106,9 +106,10 @@ const drawOneProduct = (product) => {
 }
 
 const drawCategories = (categories) => {
-    for (var i = 0; i < categories.length; i++) {
-        drawOneCategory(categories[i])
-    }
+    categories.forEach((category) => {
+        drawOneCategory(category);
+    });
+   
 }
 
 

@@ -21,16 +21,26 @@ namespace TestProject
         public async Task CreateOrder_Should_Add_Order_To_Database()
         {
             // Arrange
-            var _repository = new OrderRepository(_dbFixture.Context);
+            var _userRepository = new UserRepository(_dbFixture.Context);
+            var _orderRepository = new OrderRepository(_dbFixture.Context);
 
             // Act
-            var order = new Order {Id = 1, OrderDate = DateTime.Now, OrderSum = 0, UserId =  1 };
-            var dbOrder = await _repository.Post(order);
+            var user = new User { FirstName = "John", LastName = "Doe", UserName = "john.doe@example.com", Password = "pas@@!@ASsword123" };
+            var dbUser = await _userRepository.Post(user);
+
+            // Ensure the user is saved before creating the order
+            await _dbFixture.Context.SaveChangesAsync();
+
+            var order = new Order { UserId = dbUser.Id, OrderDate = DateTime.Now, OrderSum = 100 };
+            var dbOrder = await _orderRepository.Post(order);
 
             // Assert
             Assert.NotNull(dbOrder);
             Assert.NotEqual(0, dbOrder.Id);
-            Assert.Equal(1, dbOrder.UserId);
+            Assert.Equal(dbUser.Id, dbOrder.UserId);
+
+            _dbFixture.Dispose();
         }
+        
     }
 }

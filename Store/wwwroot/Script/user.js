@@ -86,6 +86,11 @@ const register = async () => {
         if (user.username == null || user.password == null) {
             throw new Error("username and password fields are required")
         }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(user.username)) {
+            alert("The username must be a valid email address.");
+            return;
+        }
         const postFromData = await fetch("api/Users", {
             method: 'POST',
             headers: {
@@ -113,6 +118,11 @@ const updateUser = async () => {
     console.log(sessionStorage.getItem("id"))
     const user = getDataFromUpdate()
     try {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(user.username)) {
+            alert("The username must be a valid email address.");
+            return;
+        }
         if (user.username.length > 50) {
             throw new Error("the username must be smaller than 50")
         }

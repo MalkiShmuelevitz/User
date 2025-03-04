@@ -9,11 +9,10 @@ const totalAmountAndPrice = (total) => {
 
 }
 const drawProductInCart = () => {
-    
-    for (let i = 0; i < cart.length; i++) {
-        totalPrice += cart[i].price
-        drawOneProductInCart(cart[i])
-    }
+    cart.forEach((cart) => {
+        totalPrice += cart.price;
+        drawOneProductInCart(cart);
+    });
     totalAmountAndPrice(totalPrice)
 }
 const drawOneProductInCart = (productInCart) => {
@@ -23,14 +22,12 @@ const drawOneProductInCart = (productInCart) => {
     cloneProductInCart.querySelector(".image").style.backgroundImage = `url(${url})`
     cloneProductInCart.querySelector(".itemName").innerText = productInCart.productName
     cloneProductInCart.querySelector(".price").innerText = `$${productInCart.price}`
-    cloneProductInCart.querySelector(".expandoHeight").addEventListener("click", () => { deleteProductInCart(productInCart.productName) })
+    cloneProductInCart.querySelector(".expandoHeight").addEventListener("click", () => { deleteProductInCart(productInCart.id) })
     document.querySelector("tbody").appendChild(cloneProductInCart)
 }
-const deleteProductInCart = (pName) => {
-    let pid = cart.findIndex((c) => c.productName == pName)
-    console.log(pid)
+const deleteProductInCart = (pId) => {
+    let pid = cart.findIndex((c) => c.id == pId)
     cart.splice(pid, 1)
-    console.log(cart)
     sessionStorage.setItem("cart", JSON.stringify(cart))
     document.querySelector("tbody").innerHTML = ""
     totalPrice = 0
@@ -43,40 +40,46 @@ const placeOrder = async () => {
     }
     else {
         const order = createOrder()
-        console.log(order)
-        try {
-            const data = await fetch("api/Orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(order)
-            })
-            if (data.status == 400) {
-                throw new Error(`Your order not complete ${data.title}`)
-            }
-            else if (data.status == 204) {
-                throw new Error(`You hav'nt products in your order`)
-            }
-            //if (orderData.orderItems.length)
-            //    alert(`your cart is empty 😫`)
-            else if (data.status == 401) {
-                throw new Error(`YOU CAN NOT Complete your order 😪`)
-            }
-            else {
-                let orderData = await data.json()
-                alert(`order ${orderData.id} was placed successfully!!!`)
-                sessionStorage.setItem("cart", JSON.stringify([]))
-                window.location.href = "products.html"
-            }
-            //else {
+        if (order.orderItems.length == 0) {
+            alert("You hav'nt products in your order")
+        }
+        else {
+            console.log(order)
+            try {
+                const data = await fetch("api/Orders", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(order)
+                })
+                if (data.status == 400) {
+                    throw new Error(`Your order not complete ${data.title}`)
+                }
+                else if (data.status == 204) {
+                    throw new Error(`You hav'nt products in your order`)
+                }
+                //if (orderData.orderItems.length)
+                //    alert(`your cart is empty 😫`)
+                else if (data.status == 401) {
+                    throw new Error(`YOU CAN NOT Complete your order 😪`)
+                }
+                else {
+                    let orderData = await data.json()
+                    alert(`order ${orderData.id} was placed successfully!!!`)
+                    sessionStorage.setItem("cart", JSON.stringify([]))
+                    window.location.href = "products.html"
+                }
+                //else {
 
-            //}
+                //}
+            }
+            catch (error) {
+                alert(error)
+                //console.log(error)
+            }
         }
-        catch (error) {
-            alert(error)
-            //console.log(error)
-        }
+        
     }
     
 }
