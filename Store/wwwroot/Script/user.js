@@ -9,7 +9,7 @@ const getDataFromRegister = () => {
 }
 const getDataFromUpdate = () => {
     const username = document.querySelector("#usernameOnUpdate").value
-    const password = document.querySelector("#passwordOnUpdate").value
+    const password = document.querySelector("#password2").value
     const firstname = document.querySelector("#firstnameOnUpdate").value
     const lastname = document.querySelector("#lastnameOnUpdate").value
     const userId = sessionStorage.getItem("id");

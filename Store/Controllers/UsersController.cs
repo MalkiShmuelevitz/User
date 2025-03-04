@@ -25,7 +25,6 @@ namespace Store.Controllers
             this._imapper = _imapper;
             _iuserservice = iuserservice;
             _cache = cache;
-
         }
 
 
@@ -59,13 +58,13 @@ namespace Store.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostNewUser([FromBody] UserDTO user)
+        public async Task<ActionResult<GetUserDTO>> PostNewUser([FromBody] UserDTO user)
         {
             User user1 = _imapper.Map<UserDTO, User>(user);
             User newUser =  await _iuserservice.Post(user1);
             if(newUser == null)
                 return NotFound();
-            UserDTO newUser1 = _imapper.Map<User,UserDTO>(newUser) ;
+            GetUserDTO newUser1 = _imapper.Map<User,GetUserDTO>(newUser) ;
             if (newUser1 != null)
                 return Ok(newUser1);
             //return CreatedAtAction(nameof(GetById), new { UserName = newUser1.UserName }, newUser1);
@@ -90,7 +89,7 @@ namespace Store.Controllers
             if (user2 == null)
                 return NotFound();
             GetUserDTO newUser1 = _imapper.Map<User, GetUserDTO>(user2);
-            return newUser1;
+            return Ok(newUser1);
         }
     }
 }
