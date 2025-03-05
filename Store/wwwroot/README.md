@@ -36,7 +36,7 @@ To ensure scalability, we use asynchronous programming (`async` and `await`). Th
 
 ## Database
 
-The project uses SQL as the database with a Code First approach. To create the database, you can use the following commands:
+The project uses SQL as the database with a DB First approach. To create the database, you can use the following commands:
 
 ```bash
 # Add a migration
